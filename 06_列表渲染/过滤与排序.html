@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>06_列表渲染_过滤与排序</title>
+</head>
+<body>
+
+<!--
+1. 列表过滤
+2. 列表排序
+-->
+
+<div id="demo">
+
+  <input type="text" v-model="searchName">
+  <ul>
+    <li v-for="(person, index) in filterPersons">
+      {{index}}--{{person.name}}--{{person.age}}
+    </li>
+  </ul>
+
+  <div>
+    <button @click="setOrderType(1)">年龄升序</button>
+    <button @click="setOrderType(2)">年龄降序</button>
+    <button @click="setOrderType(0)">原本顺序</button>
+  </div>
+
+</div>
+
+<script type="text/javascript" src="../js/vue.js"></script>
+<script type="text/javascript">
+    new Vue({
+        el: '#demo',
+        data: {
+            searchName: '',
+            orderType: 0,  // 0代表不排序, 1代表降序, 2代表升序
+            persons: [
+                {name: 'Tom', age:18},
+                {name: 'Jack', age:17},
+                {name: 'Bob', age:19},
+                {name: 'Mary', age:16}
+            ]
+        },
+
+        computed: {
+            /*
+            * 使用计算属性，因为要实时改变
+            * */
+            filterPersons () {
+                const {searchName, orderType, persons} = this
+
+                /*
+                * 这样，arr和persons就不在指向同一个数组了
+                * 目的：
+                *   因为如果 searchName.trim()满足，则不会执行下面的过滤
+                *     如果没有过滤，则不会通过filter返回新的数组，
+                *   那么，在进行排序时，arr和persons还是指向同一个数组，
+                *     也就是说，回不到原本顺序了，因为sort改变了原数组
+                * */
+                let arr = [...persons]
+                
+                if(searchName.trim()){
+                    //通过person的name进行过滤，indexOf返回的是指定字符串，首次出现的位置，找不到返回-1
+                    arr = persons.filter(person => person.name.indexOf(searchName) !== -1)
+                }
+                if(orderType){
+                    arr.sort(function (p1, p2) {
+                        if(orderType === 1){
+                            return p2.age - p1.age
+                        } else {
+                            return p1.age - p2.age
+                        }
+                    })
+                }
+                return arr
+            }
+        },
+
+        /*
+        * 每次调用setOrderType，更新orderType的值
+        *   因为，计算属性filterPersons依赖orderType
+        *   所以，就会重新执行。
+        * */
+        methods: {
+            setOrderType (orderType) {
+                this.orderType = orderType
+            }
+        }
+    })
+</script>
+</body>
+</html>

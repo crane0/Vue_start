@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>07_事件处理</title>
+</head>
+<body>
+<!--
+1. 绑定监听:
+  v-on:xxx="fun"
+  @xxx="fun"
+  @xxx="fun(参数)"
+  默认事件形参: event
+  隐含属性对象: $event
+2. 事件修饰符:
+  .prevent : 阻止事件的默认行为 event.preventDefault()
+  .stop : 停止事件冒泡 event.stopPropagation()
+3. 按键修饰符
+  .keycode : 操作的是某个keycode值的健
+  .enter : 操作的是enter键
+-->
+
+<!--
+绑定监听:
+    1，同一个事件，指定多个回调函数，只有最后一个有效，内部通过 DOM0的形式绑定
+
+    2，事件对应的回调函数，在传递参数时，如果是字符串，要带引号
+
+    3，回调函数调用时，当不传递参数，括号可以省略
+
+    4，每个回调函数，默认会有一个形参 event默认传递
+          注意，
+            （1）如果不传递参数，并且省略()，才可以接收一个参数event
+            （2）如果传递了其他参数（或者不省略括号时），还要传递event，必须使用 $event
+-->
+
+<!--
+事件修饰符:
+    1，.self : 只有 event.target 是当前元素自身时，才触发处理函数
+                即事件不是从内部元素触发的
+              所以，要实现阻止冒泡的行为，除了在内部元素的事件，添加.stop之外，
+                还可以在外部元素的事件，添加.self
+
+    2，.once : 事件只能执行一次
+
+    3，.capture : 添加事件监听器时，使用事件捕获模式
+              在下面的例子中，在外部事件添加.capture，
+                如果点击蓝色区域，会先执行外部的点击事件，在执行内部的
+
+    4，使用顺序有区别
+        v-on:click.prevent.self 会阻止所有的点击，
+        v-on:click.self.prevent 只会阻止对元素自身的点击。
+
+-->
+
+<!--
+按键修饰符：
+    按键修饰符，只有9个，上下左右，enter,space,tab,esc,delete
+      其他的键位，要使用对应的数字进行绑定。
+-->
+<div id="example">
+  <h2>1. 绑定监听</h2>
+  <button @click="test1">test1</button>
+  <!--<button @click="test1($event)">test1</button>-->
+  <button @click="test2('test2')">test2</button>
+  <button @click="test3('test3', $event)">test3</button>
+
+
+  <h2>2. 事件修饰符</h2>
+  <a href="http://www.baidu.com" @click.prevent="test4">百度一下</a>
+  <div style="width: 200px;height: 200px;background: red" @click="test5">
+    <div style="width: 100px;height: 100px;background: blue" @click.stop="test6"></div>
+  </div>
+
+
+  <h2>3. 按键修饰符</h2>
+  <input type="text" @keyup.13="test7">
+  <input type="text" @keyup.enter="test7">
+
+</div>
+
+<script type="text/javascript" src="../js/vue.js"></script>
+<script type="text/javascript">
+    new Vue({
+        el: '#example',
+        data: {},
+        methods: {
+            test1(event) {
+                alert(event.target.innerHTML)
+            },
+            test2(msg) {
+                alert(msg)
+            },
+            test3(msg, event) {
+                alert(event.target.innerHTML)
+            },
+
+            test4() {
+                alert('百度一下')
+            },
+            test5() {
+                alert('外部')
+            },
+            test6() {
+                alert('内部')
+            },
+            test7(event) {
+                alert(event.target.value)
+            }
+        }
+    })
+</script>
+</body>
+</html>

@@ -32,14 +32,37 @@
 
 <div id="demo">
   <h2>1. class绑定: :class='xxx'</h2>
-
+  <!--myClass是表达式-->
+  <p :class="myClass">xxx是字符串</p>
+  <!--对象形式，可以指定多个，
+    classA 是指定好的class类名，
+    hasClassA 是指定的类名属性值（一个表达式），用来表示是否显示
+    -->
+  <p :class="{classA: hasClassA, classB: hasClassB}">xxx是对象</p>
   <h2>2. style绑定</h2>
+  <!--fontSize: fontSize可以直接简写为fontSize-->
+  <p :style="{color: activeColor, fontSize: fontSize}">style绑定</p>
 
+  <button @click="update">点我一下</button>
 </div>
 
 <script type="text/javascript" src="../js/vue.js"></script>
 <script type="text/javascript">
-
+  new Vue({
+      el: '#demo',
+      data: {
+          myClass: 'classA',
+          hasClassA: true,
+          hasClassB: true,
+          activeColor: 'green',
+          fontSize: '20px'
+      },
+      methods: {
+          update () {
+              this.fontSize = '40px'
+          }
+      }
+  })
 </script>
 </body>
 </html>

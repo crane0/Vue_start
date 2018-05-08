@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>08_条件渲染</title>
+  <title>05_条件渲染</title>
 </head>
 <body>
 <!--
@@ -14,11 +14,40 @@
   如果需要频繁切换 v-show 较好
 -->
 
+<!--
+    1，v-if 根据表达式之真假值，渲染元素
+    当为false时，会将元素进行销毁
+
+    2，v-else 前一兄弟元素必须有 v-if 或 v-else-if
+    不需要表达式（默认true）
+
+    3，v-show，根据表达式之真假值，切换元素的 display CSS 属性。
+-->
+
+
 <div id="demo">
+
+  <p v-if="ok">表白成功</p>
+  <!--<p v-if="!ok">表白失败</p>-->
+
+  <p v-else>表白失败</p>
+
+  <hr/>
+  <p v-show="ok">求婚成功</p>
+  <p v-show="!ok">求婚失败</p>
+
+  <!--既然""中是表达式，也就可以直接写js代码-->
+  <button @click="ok=!ok">切换</button>
 </div>
 
 <script type="text/javascript" src="../js/vue.js"></script>
 <script type="text/javascript">
+  new Vue({
+      el: '#demo',
+      data: {
+          ok: true
+      }
+  })
 </script>
 </body>
 </html>

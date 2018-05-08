@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>08_表单输入绑定</title>
+</head>
+<body>
+<!--
+1. 使用v-model(双向数据绑定)自动收集数据
+  text/textarea
+  checkbox
+  radio
+  select
+-->
+
+<!--
+    1，可以自定义阻止表单提交的，默认行为
+        事件修饰符 .prevent
+
+    2，在radio中，要写value，否则就会被v-model进行了value的初始值覆盖
+        结果就是，选择任意一个，全部都被选中（因为v-model是相同的）
+        并且，最终是会被v-model收集，如果不写，默认收集的是null！！！
+          所以，在checkbox中，也是一样的道理。
+
+    3，在checkbox中，指定默认值时，在data的user中，hobbies: ['basket'],
+          这个 basket对应的是value属性，所以在input中也必须写value！！！
+          如果不指定默认值，也要设置为 hobbies: []
+              如果是其他的值（比如空串），每次选择时，全部都会选中！！！
+
+    4，data中user中，可以指定默认值
+
+-->
+<div id="demo">
+  <form action="/xxx" @submit.prevent="handleSubmit">
+    <span>用户名: </span>
+    <input type="text" v-model="user.username"><br>
+
+    <span>密码: </span>
+    <input type="password" v-model="user.password"><br>
+
+    <span>性别: </span>
+
+    <input type="radio" id="female" value="女" v-model="user.gender">
+    <label for="female">女</label>
+    <input type="radio" id="male" value="男" v-model="user.gender">
+    <label for="male">男</label><br>
+
+    <span>爱好: </span>
+    <input type="checkbox" id="basket" value="basket" v-model="user.hobbies">
+    <label for="basket">篮球</label>
+    <input type="checkbox" id="foot" value="foot" v-model="user.hobbies">
+    <label for="foot">足球</label>
+    <input type="checkbox" id="pingpang" value="pingpang" v-model="user.hobbies">
+    <label for="pingpang">乒乓</label><br>
+
+    <span>城市: </span>
+    <select v-model="user.cityId">
+      <option value="">未选择</option>
+      <option :value="city.id" v-for="(city, index) in user.cities" :key="city.id">{{city.name}}</option>
+    </select><br>
+    <span>介绍: </span>
+    <textarea rows="10" v-model="user.info"></textarea><br><br>
+
+    <input type="submit" value="注册">
+  </form>
+</div>
+
+<script type="text/javascript" src="../js/vue.js"></script>
+<script type="text/javascript">
+  new Vue({
+      el: '#demo',
+      data: {
+          user: {
+              username:'',
+              password: '',
+              gender: '女',
+              hobbies: ['basket'],
+              cities: [{id: 1, name: '北京'}, {id: 2, name: '上海'}, {id: 3, name: '深圳'}],
+              cityId:'2',
+              info: ''
+          }
+      },
+      methods: {
+          handleSubmit() {
+              console.log(this.user)
+          }
+      }
+  })
+</script>
+</body>
+</html>
