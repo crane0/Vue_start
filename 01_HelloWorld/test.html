@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>01_HelloWorld</title>
+</head>
+<body>
+
+<!--
+  1. 引入Vue.js
+  2. 创建Vue对象
+    el : 指定根element(选择器)
+    data : 初始化数据(页面可以访问)
+  3. 双向数据绑定 : v-model
+  4. 显示数据 : {{xxx}}
+  5. 理解vue的mvvm实现
+-->
+
+<!--
+  div整体被称为，模板
+    v-model，双向数据绑定
+    {{}}，显示数据
+-->
+<div id="test">
+  <input type="text" v-model="msg"><br/>
+  <input type="text" v-model="msg"><br/>
+  <p>hello {{msg}}</p>
+</div>
+
+<script type="text/javascript" src="../js/vue.js"></script>
+<script>
+  /*
+  * {}是配置对象，其中的内容时配置选项
+  *   el，根element的选择器，指定用vue管理的标签区域
+  *   data，初始化数据
+  * */
+   new Vue({
+       el: '#test',
+       data: {
+           msg: '666'
+       }
+   })
+</script>
+</body>
+</html>
