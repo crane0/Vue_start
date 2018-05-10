@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>12_指令_内置指令</title>
+</head>
+<body>
+<!--
+常用内置指令
+  v:text : 更新元素的 textContent
+  v-html : 更新元素的 innerHTML
+  v-if : 如果为true, 当前标签才会输出到页面
+  v-else: 如果为false, 当前标签才会输出到页面
+  v-show : 通过控制display样式来控制显示/隐藏
+  v-for : 遍历数组/对象
+  v-on : 绑定事件监听, 一般简写为@
+  v-bind : 强制绑定解析表达式, 可以省略v-bind
+  v-model : 双向数据绑定
+  ref : 为某个元素注册一个唯一标识, vue对象通过 $refs属性访问这个元素对象
+  v-cloak : 使用它防止闪现表达式, 与css配合: [v-cloak] { display: none }
+-->
+
+<!--
+    v-text相当于 textContent，
+        textContent，会获取指定节点的文本内容，包括它的所有后代！
+
+    v-html相当于 innerHTML
+        innerHTML，获取指定节点的内容，并会进行进一步解析，标签会被解析为标签
+
+    v-cloak : 使用它防止闪现表达式, 与css配合: [v-cloak] { display: none }
+        也就是说，一开始的{{xxx}}表达式不会显示，只会显示表达式解析后的内容
+-->
+<div id="example">
+    <p v-cloak>{{content}}</p>
+
+    <p v-text="content"></p>
+    <p v-html="content"></p>
+
+    <p ref="msg">我是ref</p>
+    <button @click="tips">点我</button>
+</div>
+
+<script type="text/javascript" src="../js/vue.js"></script>
+<script type="text/javascript">
+    new Vue({
+        el: '#example',
+        data: {
+            content: '<a href="https://www.baidu.com">百度一下</a>'
+        },
+        methods: {
+            tips() {
+                alert(this.$refs.msg.innerHTML)
+            }
+        }
+    })
+</script>
+</body>
+</html>
