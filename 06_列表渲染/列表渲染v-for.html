@@ -74,8 +74,12 @@
               this.persons.splice(index, 1)
           },
           update(index, newP) {
-              this.persons.splice(index, 1, newP)
-              //这样写，vue并不知道内部发生了改变
+            this.persons.splice(index, 1, newP)
+              /*
+              * 这样写，无效。
+              * vue并不知道persons内部发生了改变，没有显示更新
+              * 本质原因是数据代理没有生效，新添加的属性没有被添加到vm.data里
+              * */
               // this.persons[index] = newP
           }
       }
